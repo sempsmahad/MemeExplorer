@@ -1,6 +1,18 @@
 <resources>
-    <string name="app_name">MemeExplorer</string>
+    <string name="app_name">OCR Gallery</string>
     <string name="low_storage_error">make sure you have atleast 10mbz freespace on your internal storage</string>
     <string name="search">GO</string>
     <string name="clear_search">clear</string>
+    <string name="image_of">%1$d of %2$d</string>
+
+
+    <!--admob ids-->
+    <string name="admob_app_id" translatable="false">ca-app-pub-2151402137157381~7121535252</string>
+    <string name="admob_banner_id" translatable="false">ca-app-pub-2151402137157381/6055865599</string>
+    <string name="admob_interstitial" translatable="false">ca-app-pub-2151402137157381/7335938690</string>
+    <string name="admob_openads" translatable="false">ca-app-pub-2151402137157381/4136087957</string>
+    <string name="admob_test" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_test_inter" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_test_rcyc" translatable="false">ca-app-pub-3940256099942544/4177191030</string>
+
 </resources>
