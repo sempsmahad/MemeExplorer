@@ -1,14 +1,13 @@
 package com.example.memeexplorer.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,10 +27,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
-import androidx.documentfile.provider.DocumentFile;
 
 import com.bumptech.glide.Glide;
 import com.example.memeexplorer.R;
@@ -49,8 +46,6 @@ import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +61,9 @@ public class MainActivity extends ProgressActivity {
     private List<Meme> mMemes;
     static final int REQUEST_PERMISSION_KEY = 1;
     SearchView searchView;
+    static View parent2;
+    private AlbumAdapter adapter;
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -75,9 +73,11 @@ public class MainActivity extends ProgressActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         context = getApplicationContext();
         resultsList = findViewById(R.id.resultsList);
         mMemeLab = MemeLab.get(MainActivity.this);
+//        parent2 = (View) (findViewById(R.id.thumb_pic)).getParent();
 
         String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if(!Function.hasPermissions(this, PERMISSIONS)){
@@ -94,6 +94,8 @@ public class MainActivity extends ProgressActivity {
         context.startService(i);
 
         pathsArray = new ArrayListSaverInterface(context).getPathsArray();
+
+
         int iDisplayWidth = getResources().getDisplayMetrics().widthPixels;
         Resources resources = getApplicationContext().getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -201,17 +203,36 @@ public class MainActivity extends ProgressActivity {
         mMemeLab.addMeme(m);
     }
     public static Bitmap convertPathToBitmap(String filepath){
-            File image = new File(filepath);
-            View parent = (View) resultsList.getParent();
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap bitmap = null;
-        try {
-            bitmap = BitmapFactory.decodeStream(new FileInputStream(image));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        //bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
-            return bitmap;
+//            File image = new File(filepath);
+//            View parent = (View) resultsList.getParent();
+//
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        WindowManager windowManager = (WindowManager) get.getSystemService(Context.WINDOW_SERVICE);
+//        windowManager.getDefaultDisplay().getMetrics(metrics);
+//
+//            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//        bmOptions.inSampleSize = calculateSampleSize(bmOptions.outWidth, bmOptions.outHeight, parent.getWidth(),
+//                parent.getHeight());
+//        Bitmap bitmap = null;
+//        try {
+//            bitmap = BitmapFactory.decodeStream(new FileInputStream(image));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        bitmap = Bitmap.createScaledBitmap(bitmap,parent.getWidth(),parent.getHeight(),true);
+//            return bitmap;
+
+
+//        File sd = Environment.getExternalStorageDirectory();
+//        File image = new File(sd+filePath, imageName);
+//        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
+//        return Bitmap.createScaledBitmap(bitmap,parent2.getWidth(),parent2.getHeight(),true);
+//        return bitmap;
+//         BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inSampleSize = 4;
+//        return BitmapFactory.decodeFile(filepath, options);
+return null;
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -293,6 +314,7 @@ public class MainActivity extends ProgressActivity {
         ImageView galleryImage;
 
     }
+    @SuppressLint("RestrictedApi")
     private class DownReceiver extends ResultReceiver {
         public DownReceiver(Handler handler) {
             super(handler);
@@ -312,17 +334,17 @@ public class MainActivity extends ProgressActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        } else {
-            Uri treeUri = data.getData();
-            DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
-            grantUriPermission(getPackageName(), treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode != RESULT_OK) {
+//            return;
+//        } else {
+//            Uri treeUri = data.getData();
+//            DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
+//            grantUriPermission(getPackageName(), treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//            getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//        }
+//    }
 }
 

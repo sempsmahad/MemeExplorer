@@ -1,10 +1,19 @@
 package com.example.memeexplorer.memeClasses;
 
-import java.util.UUID;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import java.util.UUID;
+@Entity
 public class Meme {
+    @PrimaryKey
     private UUID mId;
+
+    @ColumnInfo(name = "location")
     private String mLocation;
+
+    @ColumnInfo(name = "tag")
     private String mTag;
 
     public Meme(String location, String tag) {
